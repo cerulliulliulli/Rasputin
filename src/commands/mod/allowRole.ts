@@ -1,7 +1,7 @@
 'use strict';
 import { Bot, Command } from 'yamdbf';
-import { Message, Role, User, GuildMember } from 'discord.js';
-import util from '../util/util';
+import { GuildMember, Message, Role, User } from 'discord.js';
+import util from '../../util/util';
 
 export default class AllowRole extends Command<Bot>
 {
@@ -12,15 +12,16 @@ export default class AllowRole extends Command<Bot>
             aliases: ['allow'],
             description: 'Allow specified role to be self-assigned.',
             usage: '<prefix>allow [Role Name]',
-            extraHelp: '',
+            extraHelp: 'Role Name is case-sensitive.',
             group: 'mod',
-            roles: ['All Mods'],
+            roles: ['Rasputin'],
             guildOnly: true
         });
     }
 
     public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
     {
+        // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const serverRoles: any = message.guild.roles;

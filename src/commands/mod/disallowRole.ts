@@ -1,7 +1,7 @@
 'use strict';
 import { Bot, Command } from 'yamdbf';
-import { Message, Role, User, GuildMember } from 'discord.js';
-import util from '../util/util';
+import { GuildMember, Message, Role, User } from 'discord.js';
+import util from '../../util/util';
 
 export default class DisallowRole extends Command<Bot>
 {
@@ -11,10 +11,10 @@ export default class DisallowRole extends Command<Bot>
             name: 'Disallow Role',
             aliases: ['disallow'],
             description: 'Disallow specified role to be self-assigned.',
-            usage: '<prefix>dr [Role Name]',
-            extraHelp: '',
+            usage: '<prefix>disallow [Role Name]',
+            extraHelp: 'Role Name is case-sensitive.',
             group: 'mod',
-            roles: ['All Mods'],
+            roles: ['Rasputin'],
             guildOnly: true
         });
     }
