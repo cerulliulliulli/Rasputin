@@ -1,6 +1,6 @@
 'use strict';
 import { Bot, Command } from 'yamdbf';
-import { GuildMember, Message, RichEmbed, Role, User } from 'discord.js';
+import { Collection, GuildMember, Message, RichEmbed, Role, User } from 'discord.js';
 import util from '../../util/util';
 
 export default class ListRoles extends Command<Bot>
@@ -25,10 +25,10 @@ export default class ListRoles extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const availableRoles: any = guildStorage.getItem('Server Roles');
         const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
-        const serverRoles: any = message.guild.roles;        
+        const serverRoles: any = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         let leftCol: string = '';
         let rightCol: string = '';
-        
+
         if (message.member.roles.find('name', 'Rasputin'))
         {
             // iterate through server roles to build leftCol/rightCol
