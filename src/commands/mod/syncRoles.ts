@@ -25,7 +25,7 @@ export default class ListRoles extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const availableRoles: any = guildStorage.getItem('Server Roles');
         const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
-        const serverRoles: any = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
+        const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         const embed: RichEmbed = new RichEmbed();
         let updatedRoles: any = [];
         let currentRoles: string = '';

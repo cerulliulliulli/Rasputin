@@ -25,7 +25,7 @@ export default class DisallowRole extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
-        let roleArg: any;
+        let roleArg: string;
         let role: Role;
 
         // make sure a role was specified

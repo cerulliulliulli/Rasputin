@@ -1,6 +1,6 @@
 'use strict';
 import { Bot, Command } from 'yamdbf';
-import { GuildMember, Message, Role, User } from 'discord.js';
+import { Collection, GuildMember, Message, Role, User } from 'discord.js';
 import util from '../../util/util';
 
 export default class AllowRole extends Command<Bot>
@@ -24,9 +24,9 @@ export default class AllowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
-        const serverRoles: any = message.guild.roles;
+        const serverRoles: Collection<string, Role> = message.guild.roles;
         const re: RegExp = new RegExp('(?:.allow\\s)(.+)', 'i');
-        let roleArg: any;
+        let roleArg: string;
         let role: Role;
 
         // make sure a role was specified
