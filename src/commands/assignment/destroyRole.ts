@@ -39,7 +39,7 @@ export default class DestroyRole extends Command<Bot>
             return message.channel.sendMessage('There are currently no self-assignable roles.');
         
         // get id of role
-        availableRoles.forEach((el: any) => (el.name === roleArg) ? role = message.guild.roles.get(el.id): Role);
+        availableRoles.forEach((el: any) => (el.name === roleArg) ? role = message.guild.roles.get(el.id) : Role);
         
         // check if role is valid
         if (role === undefined)
