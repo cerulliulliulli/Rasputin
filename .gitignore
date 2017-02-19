@@ -7,3 +7,4 @@ ehthumbs.db
 /pkg/*
 config.json
 npm-debug*
+gulpfile.js
