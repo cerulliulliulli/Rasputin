@@ -25,8 +25,8 @@ export default class DisallowRole extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
-        let role: Role;
         let roleArg: any;
+        let role: Role;
 
         // make sure a role was specified
         if (re.test(original))
@@ -37,7 +37,7 @@ export default class DisallowRole extends Command<Bot>
         // find id of role
         role = message.guild.roles.find('name', roleArg);
         if (role === null)
-            return message.channel.sendMessage(`**${roleArg}** is currently not a server role.`);
+            return message.channel.sendMessage(`The **${roleArg}** role is currently not a server role.`);
         
         // make sure available roles isn't empty
         if (availableRoles === null)
@@ -59,7 +59,7 @@ export default class DisallowRole extends Command<Bot>
             availableRoles.splice(index, 1);
             guildStorage.setItem('Server Roles', availableRoles);
 
-            return message.channel.sendMessage(`**${roleArg}** successfully disallowed.`);
+            return message.channel.sendMessage(`The **${roleArg}** role successfully disallowed.`);
         }
     }
 }

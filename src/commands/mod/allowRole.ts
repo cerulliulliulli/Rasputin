@@ -26,8 +26,8 @@ export default class AllowRole extends Command<Bot>
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const serverRoles: any = message.guild.roles;
         const re: RegExp = new RegExp('(?:.allow\\s)(.+)', 'i');
-        let role: Role;
         let roleArg: any;
+        let role: Role;
 
         // make sure a role was specified
         if (re.test(original))
@@ -38,7 +38,7 @@ export default class AllowRole extends Command<Bot>
         // find id of role
         role = message.guild.roles.find('name', roleArg);
         if (role === null)
-            return message.channel.sendMessage(`**${roleArg}** is currently not a server role.`);
+            return message.channel.sendMessage(`The **${roleArg}** role is currently not a server role.`);
         
         // make sure available roles isn't empty
         if (availableRoles === null)
@@ -47,7 +47,7 @@ export default class AllowRole extends Command<Bot>
             let newAvailableRoles = [{ "id": role.id, "name": roleArg }];
             guildStorage.setItem('Server Roles', newAvailableRoles);
 
-            return message.channel.sendMessage(`**${roleArg}** successfully allowed.`);
+            return message.channel.sendMessage(`The **${roleArg}** role successfully allowed.`);
         }
         else
         {
@@ -55,7 +55,7 @@ export default class AllowRole extends Command<Bot>
             availableRoles.push({ "id": role.id, "name": roleArg });
             guildStorage.setItem('Server Roles', availableRoles);
 
-            return message.channel.sendMessage(`**${roleArg}** successfully allowed.`);
+            return message.channel.sendMessage(`The **${roleArg}** role successfully allowed.`);
         }
     }
 }

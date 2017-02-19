@@ -25,30 +25,34 @@ export default class GetRole extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.gr\\s)(.+)', 'i');
-        let role: Role;
         let roleArg: any;
+        let role: Role;
 
         // make sure a role was specified
         if (re.test(original))
             roleArg = re.exec(original)[1];
         else
             return message.channel.sendMessage('Please specify a role to self-assign.');
+
+        // make sure there are allowed roles
+        if (availableRoles === null)
+            return message.channel.sendMessage('There are currently no self-assignable roles.');
         
         // get id of role
-        let x: number = 0;
-        while (x < availableRoles.length)
-        {
-            if (availableRoles[x].name === roleArg)
-                role = message.guild.roles.get(availableRoles[x].id);
-            x++;
-        }
+        availableRoles.forEach(
+            function(el: any)
+            {
+                if (el.name === roleArg)
+                    role = message.guild.roles.get(el.id);
+            }
+        );
         
         // check if role is valid
         if (role === undefined)
-            return message.channel.sendMessage(`**${roleArg}** is not a valid role.`);
+            return message.channel.sendMessage(`The **${roleArg}** role is not a valid role.`);
         
         // assign role
         message.member.addRole(role);
-        return message.channel.sendMessage(`**${roleArg}** successfully assigned.`);
+        return message.channel.sendMessage(`The **${roleArg}** role successfully assigned.`);
     }
 }
