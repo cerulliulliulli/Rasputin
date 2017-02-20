@@ -60,8 +60,8 @@ export default class ListRoles extends Command<Bot>
         }
         else
         {
-            // iterate through server roles to build leftCol/rightCol
-            availableRoles.forEach(function(el: any) { leftCol += '\n' + el.name; });
+            // iterate through server roles to build leftCol
+            availableRoles.forEach((el: any) => leftCol += '\n' + el.name);
             
             // build the output embed
             const userEmbed: RichEmbed = new RichEmbed()

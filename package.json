@@ -5,6 +5,10 @@
   "main": "bin/rasputin.js",
   "author": "katagatame_ <nathan@kaizotrap.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/katagatame/Rasputin"
+  },
   "keywords": [
     "discord",
     "discordapp",
