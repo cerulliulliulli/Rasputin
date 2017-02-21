@@ -22,7 +22,7 @@ This command will display all of the roles that are available to be allowed/disa
 
 Usage `.list`
 
-# Public Commands
+# User Commands
 ### .gr \<Role Name\>
 This command will assign a specific role to yourself.
 
