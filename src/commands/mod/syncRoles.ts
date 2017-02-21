@@ -34,26 +34,23 @@ export default class ListRoles extends Command<Bot>
         const noRoles: RichEmbed = new RichEmbed()
             .setTitle(message.guild.name + ': Role Synchronization')
             .setColor(0x274E13)
-            .addField('Current Allowed Roles', '\nNo roles currently allowed.')
-            .setFooter('*Roles are case-sensitive.');
+            .addField('Current Allowed Roles', '\nNo roles currently allowed.');
 
         // make sure there are allowed roles
         if (availableRoles === null)
             return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
 
         // iterate through availableRoles, create updated list
-        availableRoles.forEach(
-            function(el: any)
+        availableRoles.forEach(function(el: any)
+        {
+            if (serverRoles.find('name', el.name))
             {
-                if (serverRoles.find('name', el.name))
-                {
-                    updatedRoles.push(el);
-                    currentRoles += '\n' + el.name;
-                }
-                else
-                    removedRoles += '\n' + el.name;
+                updatedRoles.push(el);
+                currentRoles += '\n' + el.name;
             }
-        );
+            else
+                removedRoles += '\n' + el.name;
+        });
 
         // update availableRoles
         guildStorage.setItem('Server Roles', updatedRoles);
@@ -67,8 +64,7 @@ export default class ListRoles extends Command<Bot>
             embed
                 .setTitle(message.guild.name + ': Role Synchronization')
                 .setColor(0x274E13)
-                .addField('Current Allowed Roles', currentRoles)
-                .setFooter('*Roles are case-sensitive.');
+                .addField('Current Allowed Roles', currentRoles);
         }
         else
         {
@@ -76,8 +72,7 @@ export default class ListRoles extends Command<Bot>
                 .setTitle(message.guild.name + ': Role Synchronization')
                 .setColor(0x274E13)
                 .addField('Current Allowed Roles', currentRoles)
-                .addField('Roles Removed', removedRoles)
-                .setFooter('*Roles are case-sensitive.');
+                .addField('Roles Removed', removedRoles);
         }
  
         // display the list

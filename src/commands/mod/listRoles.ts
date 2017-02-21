@@ -29,37 +29,42 @@ export default class ListRoles extends Command<Bot>
         let leftCol: string = '';
         let rightCol: string = '';
 
+        const noRoles: RichEmbed = new RichEmbed()
+            .setTitle(message.guild.name + ': Role Synchronization')
+            .setColor(0x274E13)
+            .addField('Current Allowed Roles', '\nNo roles currently allowed.');
+
         if (message.member.roles.find('name', 'Rasputin'))
         {
             // iterate through server roles to build leftCol/rightCol
-            serverRoles.forEach(
-                function(el: any)
+            serverRoles.forEach(function(el: any)
+            {
+                // grab all roles below rasputin, exclude @everyone and bots
+                if (el.position < rasputinRole.position && el.name !== '@everyone' && el.managed === false)
                 {
-                    // grab all roles below rasputin, exclude @everyone and bots
-                    if (el.position < rasputinRole.position && el.name !== '@everyone' && el.managed === false)
-                    {
-                        leftCol += '\n' + el.name;
-                        if (util.existsInArray(availableRoles, el.name))
-                            rightCol += '\n**Allowed**';
-                        else
-                            rightCol += '\nNot Allowed';
-                    }
+                    leftCol += '\n' + el.name;
+                    if (util.existsInArray(availableRoles, el.name))
+                        rightCol += '\n**Allowed**';
+                    else
+                        rightCol += '\nNot Allowed';
                 }
-            );
+            });
 
             // build the output embed
             const modEmbed: RichEmbed = new RichEmbed()
                 .setTitle(message.guild.name + ': List of Roles')
                 .setColor(0x274E13)
                 .addField('Roles', leftCol, true)
-                .addField('Status', rightCol, true)
-                .setFooter('*Roles are case-sensitive.');
+                .addField('Status', rightCol, true);
             
             // display the list
             return message.channel.sendEmbed(modEmbed, '', { disableEveryone: true });
         }
         else
         {
+            if (availableRoles === [])
+                return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
+
             // iterate through server roles to build leftCol
             availableRoles.forEach((el: any) => leftCol += '\n' + el.name);
             
@@ -67,8 +72,7 @@ export default class ListRoles extends Command<Bot>
             const userEmbed: RichEmbed = new RichEmbed()
                 .setTitle(message.guild.name + ': List of Roles')
                 .setColor(0x274E13)
-                .addField('Roles', leftCol, true)
-                .setFooter('*Roles are case-sensitive.');
+                .addField('Roles', leftCol, true);
             
             // display the list
             return message.channel.sendEmbed(userEmbed, '', { disableEveryone: true });

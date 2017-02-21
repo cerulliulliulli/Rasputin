@@ -25,6 +25,7 @@ export default class AllowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
+        const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRolesArray: Array<[string, Role]> = Array.from(message.guild.roles.entries());
         const re: RegExp = new RegExp('(?:.allow\\s)(.+)', 'i');
         let roleArg: string;
@@ -36,11 +37,18 @@ export default class AllowRole extends Command<Bot>
         else
             return message.channel.sendMessage('Please specify a role to allow.');
         
+        // map roles
+        let roleMap: any = serverRolesArray.filter(function(el: any)
+        {
+            if (el[1].position < rasputinRole.position && el[1].name !== '@everyone' && el[1].managed === false)
+                return el[1];
+        });
+
         // search for role
         let options: any = { extract: function(el: any) { return el[1].name; } };
-        let results: any = fuzzy.filter(roleArg, serverRolesArray, options);
+        let results: any = fuzzy.filter(roleArg, roleMap, options);
 
-        // check if role is valid
+         // check if role is valid
         if (results.length === 0)
             return message.channel.sendMessage(`\`${roleArg}\` is not a valid role.`);
         
@@ -72,5 +80,6 @@ export default class AllowRole extends Command<Bot>
         // more than one role found
         if (results.length > 1)
             return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        
     }
 }
