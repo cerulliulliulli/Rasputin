@@ -38,6 +38,5 @@ This command will display all of the roles that are available to be allowed/disa
 
 Usage `.list`
 
-
 # Links
 - [Add Rasputin to your server](https://discordapp.com/oauth2/authorize?&client_id=275830693299486731&scope=bot&permissions=150528)

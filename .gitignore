@@ -6,5 +6,7 @@ ehthumbs.db
 /bin/*
 /pkg/*
 config.json
+config.dev.json
+config.prod.json
 npm-debug*
 gulpfile.js
