@@ -4,18 +4,18 @@ import { GuildMember, Message, Role, User } from 'discord.js';
 import * as fuzzy from 'fuzzy';
 import util from '../../util/util';
 
-export default class DisallowRole extends Command<Bot>
+export default class DestroyRole extends Command<Bot>
 {
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'Disallow Role',
-            aliases: ['disallow'],
-            description: 'Disallow specified role to be self-assigned.',
-            usage: '<prefix>disallow [Role Name]',
+            name: 'Destroy Role',
+            aliases: ['dr'],
+            description: 'Remove one of the specified self-assignable roles.',
+            usage: '<prefix>dr [Role Name]',
             extraHelp: 'Role Name is case-sensitive.',
-            group: 'mod',
-            roles: ['Rasputin'],
+            group: 'user',
+            roles: [],
             guildOnly: true
         });
     }
@@ -25,7 +25,7 @@ export default class DisallowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
-        const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
+        const re: RegExp = new RegExp('(?:.dr\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
 
@@ -33,11 +33,15 @@ export default class DisallowRole extends Command<Bot>
         if (re.test(original))
             roleArg = re.exec(original)[1];
         else
-            return message.channel.sendMessage('Please specify a role to disallow.');
-        
-        // make sure available roles isn't empty
+            return message.channel.sendMessage('Please specify a role to remove.');
+
+        // make sure there are allowed roles
         if (availableRoles === null)
-            return message.channel.sendMessage(`No roles currently allowed.`);
+            return message.channel.sendMessage('There are currently no self-assignable roles.');
+        
+        // make sure user is logged in
+        if (message.member === null)
+            return message.channel.sendMessage('Please login in order to remove roles.');
         
         // search for role
         let options: any = { extract: (el: any) => { return el.name } };
@@ -47,17 +51,11 @@ export default class DisallowRole extends Command<Bot>
         if (results.length === 0)
             return message.channel.sendMessage(`\`${roleArg}\` is not a valid role.`);
         
-        // disallow role
+        // assign role
         if (results.length === 1)
         {
-            // role from result
-            role = message.guild.roles.get(results[0].original.id);
-            
-            // remove the role from the allowed list
-            availableRoles.splice(util.getRoleToRemove(availableRoles, role.name), 1);
-            guildStorage.setItem('Server Roles', availableRoles);
-
-            return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
+            message.member.removeRole(results[0].original.id);
+            return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);            
         }
 
         // more than one role found
@@ -66,14 +64,12 @@ export default class DisallowRole extends Command<Bot>
             // check if roleArg is specifically typed
             if (util.isSpecificResult(results, roleArg))
             {
-                // remove the role from the allowed list
-                availableRoles.splice(util.getRoleToRemove(availableRoles, util.getSpecificRoleName(results, roleArg)), 1);
-                guildStorage.setItem('Server Roles', availableRoles);
-
-                return message.channel.sendMessage(`\`${util.getSpecificRoleName(results, roleArg)}\` successfully disallowed.`);
+                role = message.guild.roles.find('name', util.getSpecificRoleName(results, roleArg));
+                message.member.removeRole(role);
+                return message.channel.sendMessage(`\`${role.name}\` successfully removed.`);                
             }
             else
                 return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
-        }            
+        }
     }
 }

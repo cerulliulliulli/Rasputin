@@ -14,7 +14,7 @@ export default class GetRole extends Command<Bot>
             description: 'Get one of the specified self-assignable roles.',
             usage: '<prefix>gr [Role Name]',
             extraHelp: 'Role Name is case-sensitive.',
-            group: 'assignment',
+            group: 'user',
             roles: [],
             guildOnly: true
         });

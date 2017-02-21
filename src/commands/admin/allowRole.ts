@@ -14,7 +14,7 @@ export default class AllowRole extends Command<Bot>
             description: 'Allow specified role to be self-assigned.',
             usage: '<prefix>allow [Role Name]',
             extraHelp: 'Role Name is case-sensitive.',
-            group: 'mod',
+            group: 'admin',
             roles: ['Rasputin'],
             guildOnly: true
         });

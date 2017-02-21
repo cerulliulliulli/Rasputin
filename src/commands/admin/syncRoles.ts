@@ -13,7 +13,7 @@ export default class ListRoles extends Command<Bot>
             description: 'Synchronize the allowed roles with the current server roles.',
             usage: '<prefix>sync',
             extraHelp: 'This command will remove any non-existent server roles from the list of allowed roles.',
-            group: 'mod',
+            group: 'admin',
             roles: ['Rasputin'],
             guildOnly: true
         });
@@ -31,8 +31,8 @@ export default class ListRoles extends Command<Bot>
         let removedRoles: string = '';
 
         const noRoles: RichEmbed = new RichEmbed()
-            .setTitle(message.guild.name + ': Role Synchronization')
             .setColor(0x274E13)
+            .setTitle(message.guild.name + ': Role Synchronization')            
             .addField('Current Allowed Roles', '\nNo roles currently allowed.');
 
         // make sure there are allowed roles
@@ -64,8 +64,8 @@ export default class ListRoles extends Command<Bot>
         
         // build the output embed
         const embed: RichEmbed = new RichEmbed()
-            .setTitle(message.guild.name + ': Role Synchronization')
             .setColor(0x274E13)
+            .setTitle(message.guild.name + ': Role Synchronization')
             .addField('Current Allowed Roles', currentRoles)
             .addField('Roles Cleaned from Allowed List', removedRoles);        
  

@@ -13,7 +13,7 @@ export default class ListRoles extends Command<Bot>
             description: 'List all server roles with their current self-assignable status.',
             usage: '<prefix>list',
             extraHelp: '',
-            group: 'mod',
+            group: 'shared',
             roles: [],
             guildOnly: true
         });
@@ -30,8 +30,8 @@ export default class ListRoles extends Command<Bot>
         let rightCol: string = '';
 
         const noRoles: RichEmbed = new RichEmbed()
-            .setTitle(message.guild.name + ': Role Synchronization')
             .setColor(0x274E13)
+            .setTitle(message.guild.name + ': Role Synchronization')            
             .addField('Current Allowed Roles', '\nNo roles currently allowed.');
 
         if (message.member.roles.find('name', 'Rasputin'))
@@ -52,8 +52,8 @@ export default class ListRoles extends Command<Bot>
 
             // build the output embed
             const modEmbed: RichEmbed = new RichEmbed()
-                .setTitle(message.guild.name + ': List of Roles')
                 .setColor(0x274E13)
+                .setTitle(message.guild.name + ': List of Roles')                
                 .addField('Roles', leftCol, true)
                 .addField('Status', rightCol, true);
             
@@ -70,8 +70,8 @@ export default class ListRoles extends Command<Bot>
             
             // build the output embed
             const userEmbed: RichEmbed = new RichEmbed()
-                .setTitle(message.guild.name + ': List of Roles')
                 .setColor(0x274E13)
+                .setTitle(message.guild.name + ': List of Roles')                
                 .addField('Roles', leftCol, true);
             
             // display the list
