@@ -26,7 +26,6 @@ export default class ListRoles extends Command<Bot>
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
-        const embed: RichEmbed = new RichEmbed();
         let updatedRoles: any = [];
         let currentRoles: string = '';
         let removedRoles: string = '';
@@ -59,22 +58,16 @@ export default class ListRoles extends Command<Bot>
         if (currentRoles === '')
             return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
 
-        // build the output embed
+        // check if there are roles to remove
         if (removedRoles === '')
-        {
-            embed
-                .setTitle(message.guild.name + ': Role Synchronization')
-                .setColor(0x274E13)
-                .addField('Current Allowed Roles', currentRoles);
-        }
-        else
-        {
-            embed
-                .setTitle(message.guild.name + ': Role Synchronization')
-                .setColor(0x274E13)
-                .addField('Current Allowed Roles', currentRoles)
-                .addField('Roles Removed', removedRoles);
-        }
+            removedRoles = '*No roles removed*';
+        
+        // build the output embed
+        const embed: RichEmbed = new RichEmbed()
+            .setTitle(message.guild.name + ': Role Synchronization')
+            .setColor(0x274E13)
+            .addField('Current Allowed Roles', currentRoles)
+            .addField('Roles Cleaned from Allowed List', removedRoles);        
  
         // display the list
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });
