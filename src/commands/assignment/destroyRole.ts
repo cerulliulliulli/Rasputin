@@ -1,6 +1,7 @@
 'use strict';
 import { Bot, Command } from 'yamdbf';
 import { GuildMember, Message, Role, User } from 'discord.js';
+import * as fuzzy from 'fuzzy';
 import util from '../../util/util';
 
 export default class DestroyRole extends Command<Bot>
@@ -33,20 +34,28 @@ export default class DestroyRole extends Command<Bot>
             roleArg = re.exec(original)[1];
         else
             return message.channel.sendMessage('Please specify a role to remove.');
-        
+
         // make sure there are allowed roles
         if (availableRoles === null)
             return message.channel.sendMessage('There are currently no self-assignable roles.');
         
-        // get id of role
-        availableRoles.forEach((el: any) => (el.name === roleArg) ? role = message.guild.roles.get(el.id) : Role);
-        
+        // search for role
+        let options: any = { extract: (el: any) => { return el.name } };
+        let results: any = fuzzy.filter(roleArg, availableRoles, options);
+
         // check if role is valid
-        if (role === undefined)
-            return message.channel.sendMessage(`The **${roleArg}** role is not a valid role.`);
+        if (results.length === 0)
+            return message.channel.sendMessage(`\`${roleArg}\` is not a valid role.`);
         
-        // remove role
-        message.member.removeRole(role);
-        return message.channel.sendMessage(`The **${roleArg}** role successfully removed.`);
+        // assign role
+        if (results.length === 1)
+        {
+            message.member.removeRole(results[0].original.id);
+            return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);
+        }
+
+        // more than one role found
+        if (results.length > 1)
+            return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);        
     }
 }
