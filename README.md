@@ -2,12 +2,12 @@
 Small bot geared towards supporting Destiny Discord servers.  Currently, role management is the main focus.  Role names are not case-sensitive.
 
 # Admin Commands
-### .allow
+### .allow \<Role Name\>
 This command will allow a specific role to be self-assignable, via the Public Command `.gr <Role Name>`.
 
 Usage `.allow <Role Name>`
 
-### .disallow
+### .disallow \<Role Name\>
 This command will disallow a specific role to be self-assignable.
 
 Usage `.disallow <Role Name>`
@@ -23,12 +23,12 @@ This command will display all of the roles that are available to be allowed/disa
 Usage `.list`
 
 # Public Commands
-### .gr
+### .gr \<Role Name\>
 This command will assign a specific role to yourself.
 
 Usage `.gr <Role Name>`
 
-### .dr
+### .dr \<Role Name\>
 This command will remove a specific role to yourself.
 
 Usage `.dr <Role Name>`
