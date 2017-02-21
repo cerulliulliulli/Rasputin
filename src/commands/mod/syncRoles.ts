@@ -23,7 +23,7 @@ export default class ListRoles extends Command<Bot>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        const availableRoles: any = guildStorage.getItem('Server Roles');
+        const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         const embed: RichEmbed = new RichEmbed();
@@ -55,12 +55,13 @@ export default class ListRoles extends Command<Bot>
         // update availableRoles
         guildStorage.setItem('Server Roles', updatedRoles);
 
+        // make sure there are current roles
+        if (currentRoles === '')
+            return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
+
         // build the output embed
         if (removedRoles === '')
         {
-            if (currentRoles === '')
-                return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
-
             embed
                 .setTitle(message.guild.name + ': Role Synchronization')
                 .setColor(0x274E13)
