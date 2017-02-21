@@ -24,7 +24,7 @@ export default class DestroyRole extends Command<Bot>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        let availableRoles: any = guildStorage.getItem('Server Roles');
+        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.dr\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
@@ -39,6 +39,10 @@ export default class DestroyRole extends Command<Bot>
         if (availableRoles === null)
             return message.channel.sendMessage('There are currently no self-assignable roles.');
         
+        // make sure user is logged in
+        if (message.member === null)
+            return message.channel.sendMessage('Please login in order to remove roles.');
+        
         // search for role
         let options: any = { extract: (el: any) => { return el.name } };
         let results: any = fuzzy.filter(roleArg, availableRoles, options);
@@ -51,11 +55,21 @@ export default class DestroyRole extends Command<Bot>
         if (results.length === 1)
         {
             message.member.removeRole(results[0].original.id);
-            return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);
+            return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);            
         }
 
         // more than one role found
         if (results.length > 1)
-            return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);        
+        {
+            // check if roleArg is specifically typed
+            if (util.isSpecificResult(results, roleArg))
+            {
+                role = message.guild.roles.find('name', util.getSpecificRoleName(results, roleArg));
+                message.member.removeRole(role);
+                return message.channel.sendMessage(`\`${role.name}\` successfully removed.`);                
+            }
+            else
+                return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        }
     }
 }

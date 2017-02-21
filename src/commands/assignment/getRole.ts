@@ -24,7 +24,7 @@ export default class GetRole extends Command<Bot>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        let availableRoles: any = guildStorage.getItem('Server Roles');
+        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.gr\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
@@ -38,6 +38,10 @@ export default class GetRole extends Command<Bot>
         // make sure there are allowed roles
         if (availableRoles === null)
             return message.channel.sendMessage('There are currently no self-assignable roles.');
+        
+        // make sure user is logged in
+        if (message.member === null)
+            return message.channel.sendMessage('Please login in order to assign roles.');
         
         // search for role
         let options: any = { extract: (el: any) => { return el.name } };
@@ -56,6 +60,16 @@ export default class GetRole extends Command<Bot>
 
         // more than one role found
         if (results.length > 1)
-            return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);        
+        {
+            // check if roleArg is specifically typed
+            if (util.isSpecificResult(results, roleArg))
+            {
+                role = message.guild.roles.find('name', util.getSpecificRoleName(results, roleArg));
+                message.member.addRole(role);
+                return message.channel.sendMessage(`\`${role.name}\` successfully assigned.`);
+            }
+            else
+                return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        }
     }
 }

@@ -46,7 +46,7 @@ export default class AllowRole extends Command<Bot>
 
         // search for role
         let options: any = { extract: function(el: any) { return el[1].name; } };
-        let results: any = fuzzy.filter(roleArg, roleMap, options);
+        let results: Array<any> = fuzzy.filter(roleArg, roleMap, options);
 
          // check if role is valid
         if (results.length === 0)
@@ -57,6 +57,10 @@ export default class AllowRole extends Command<Bot>
         {
             // role from result
             role = results[0].original[1];
+
+            // check if role already is allowed
+            if (util.doesRoleExist(availableRoles, role))
+                return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
 
             // make sure available roles isn't empty
             if (availableRoles === null)
@@ -79,7 +83,36 @@ export default class AllowRole extends Command<Bot>
 
         // more than one role found
         if (results.length > 1)
-            return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
-        
+        {
+            // check if roleArg is specifically typed
+            if (util.isSpecificResult(results, roleArg))
+            {
+                role = util.getSpecificRole(results, roleArg);
+
+                // check if role already is allowed
+                if (util.doesRoleExist(availableRoles, role))
+                    return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
+                
+                // make sure available roles isn't empty
+                if (availableRoles === null)
+                {
+                    // setup new allowed list
+                    let newAvailableRoles = [{ "id": role.id, "name": role.name }];
+                    guildStorage.setItem('Server Roles', newAvailableRoles);
+
+                    return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
+                }
+                else
+                {
+                    // update allowed list
+                    availableRoles.push({ "id": role.id, "name": role.name });
+                    guildStorage.setItem('Server Roles', availableRoles);
+
+                    return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
+                }
+            }
+            else
+                return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        }
     }
 }

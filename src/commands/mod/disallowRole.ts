@@ -24,7 +24,7 @@ export default class DisallowRole extends Command<Bot>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        let availableRoles: any = guildStorage.getItem('Server Roles');
+        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
@@ -34,6 +34,10 @@ export default class DisallowRole extends Command<Bot>
             roleArg = re.exec(original)[1];
         else
             return message.channel.sendMessage('Please specify a role to disallow.');
+        
+        // make sure available roles isn't empty
+        if (availableRoles === null)
+            return message.channel.sendMessage(`No roles currently allowed.`);
         
         // search for role
         let options: any = { extract: (el: any) => { return el.name } };
@@ -48,33 +52,28 @@ export default class DisallowRole extends Command<Bot>
         {
             // role from result
             role = message.guild.roles.get(results[0].original.id);
+            
+            // remove the role from the allowed list
+            availableRoles.splice(util.getRoleToRemove(availableRoles, role.name), 1);
+            guildStorage.setItem('Server Roles', availableRoles);
 
-            // make sure available roles isn't empty
-            if (availableRoles === null)
-                return message.channel.sendMessage(`No roles currently allowed.`);
-
-            else
-            {
-                // find the index of the role to be disallowed
-                let index: number = 0;
-                let x: number = 0;
-                while (x < availableRoles.length)
-                {
-                    if (availableRoles[x].name === role.name)
-                        index = x;
-                    x++;
-                }
-
-                // remove the role from the allowed list
-                availableRoles.splice(index, 1);
-                guildStorage.setItem('Server Roles', availableRoles);
-
-                return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
-            }
+            return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
         }
 
         // more than one role found
         if (results.length > 1)
-            return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        {
+            // check if roleArg is specifically typed
+            if (util.isSpecificResult(results, roleArg))
+            {
+                // remove the role from the allowed list
+                availableRoles.splice(util.getRoleToRemove(availableRoles, util.getSpecificRoleName(results, roleArg)), 1);
+                guildStorage.setItem('Server Roles', availableRoles);
+
+                return message.channel.sendMessage(`\`${util.getSpecificRoleName(results, roleArg)}\` successfully disallowed.`);
+            }
+            else
+                return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+        }            
     }
 }
