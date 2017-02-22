@@ -9,13 +9,12 @@ export default class UserStats extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'User Stats',
+            name: 'userStats',
             aliases: ['stats'],
             description: 'Display your discord stats.',
             usage: '<prefix>stats',
             extraHelp: '',
             group: 'shared',
-            roles: [],
             guildOnly: true
         });
     }
@@ -49,12 +48,12 @@ export default class UserStats extends Command<Bot>
 
         const embed: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
-            .setTitle(guildMember.user.username + '#' + guildMember.user.discriminator)
+            .setAuthor(guildMember.user.username + '#' + guildMember.user.discriminator, guildMember.user.avatarURL)
             .setDescription(status)
-            .setThumbnail(guildMember.user.avatarURL)
             .addField('Joined Server', joinServer, true)
             .addField('Joined Discord', joinDiscord, true)
-            .addField('Roles', roles.join(', '), false);
+            .addField('Roles', roles.join(', '), false)
+			.setTimestamp();
 
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });
     }

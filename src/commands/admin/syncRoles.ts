@@ -8,13 +8,12 @@ export default class SyncRoles extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'Sync Roles',
+            name: 'sync',
             aliases: ['sync'],
             description: 'Synchronize the allowed roles with the current server roles.',
             usage: '<prefix>sync',
             extraHelp: 'This command will remove any non-existent server roles from the list of allowed roles.',
             group: 'admin',
-            roles: ['Rasputin'],
             guildOnly: true
         });
     }
@@ -32,8 +31,9 @@ export default class SyncRoles extends Command<Bot>
 
         const noRoles: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
-            .setTitle(message.guild.name + ': Role Synchronization')            
-            .addField('Current Allowed Roles', '\nNo roles currently allowed.');
+            .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
+            .addField('Current Allowed Roles', '\nNo roles currently allowed.')
+			.setTimestamp();
 
         // make sure there are allowed roles
         if (availableRoles === null)
@@ -65,9 +65,10 @@ export default class SyncRoles extends Command<Bot>
         // build the output embed
         const embed: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
-            .setTitle(message.guild.name + ': Role Synchronization')
+            .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
             .addField('Current Allowed Roles', currentRoles)
-            .addField('Roles Cleaned from Allowed List', removedRoles);        
+            .addField('Roles Cleaned from Allowed List', removedRoles)
+			.setTimestamp();
  
         // display the list
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });

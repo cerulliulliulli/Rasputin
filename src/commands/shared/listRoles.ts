@@ -8,13 +8,12 @@ export default class ListRoles extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'List Roles',
+            name: 'listRoles',
             aliases: ['list'],
             description: 'List all server roles with their current self-assignable status.',
             usage: '<prefix>list',
             extraHelp: '',
             group: 'shared',
-            roles: [],
             guildOnly: true
         });
     }
@@ -32,7 +31,8 @@ export default class ListRoles extends Command<Bot>
         const noRoles: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
             .setTitle(message.guild.name + ': Role Synchronization')            
-            .addField('Current Allowed Roles', '\nNo roles currently allowed.');
+            .addField('Current Allowed Roles', '\nNo roles currently allowed.')
+            .setTimestamp();
 
         if (message.member.roles.find('name', 'Rasputin'))
         {
@@ -53,9 +53,10 @@ export default class ListRoles extends Command<Bot>
             // build the output embed
             const modEmbed: RichEmbed = new RichEmbed()
                 .setColor(0x274E13)
-                .setTitle(message.guild.name + ': List of Roles')                
+                .setAuthor(message.guild.name + ': List of Roles', message.guild.iconURL)
                 .addField('Roles', leftCol, true)
-                .addField('Status', rightCol, true);
+                .addField('Status', rightCol, true)
+			    .setTimestamp();
             
             // display the list
             return message.channel.sendEmbed(modEmbed, '', { disableEveryone: true });
@@ -71,8 +72,9 @@ export default class ListRoles extends Command<Bot>
             // build the output embed
             const userEmbed: RichEmbed = new RichEmbed()
                 .setColor(0x274E13)
-                .setTitle(message.guild.name + ': List of Roles')                
-                .addField('Roles', leftCol, true);
+                .setAuthor(message.guild.name + ': List of Roles', message.guild.iconURL)
+                .addField('Roles', leftCol, true)
+			    .setTimestamp();
             
             // display the list
             return message.channel.sendEmbed(userEmbed, '', { disableEveryone: true });

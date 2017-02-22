@@ -9,13 +9,12 @@ export default class DestroyRole extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'Destroy Role',
+            name: 'destroyRole',
             aliases: ['dr'],
             description: 'Remove one of the specified self-assignable roles.',
             usage: '<prefix>dr [Role Name]',
-            extraHelp: 'Role Name is case-sensitive.',
+            extraHelp: '',
             group: 'user',
-            roles: [],
             guildOnly: true
         });
     }

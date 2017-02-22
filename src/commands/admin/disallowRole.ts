@@ -9,13 +9,12 @@ export default class DisallowRole extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'Disallow Role',
+            name: 'disallowRole',
             aliases: ['disallow'],
             description: 'Disallow specified role to be self-assigned.',
             usage: '<prefix>disallow [Role Name]',
-            extraHelp: 'Role Name is case-sensitive.',
+            extraHelp: '',
             group: 'admin',
-            roles: ['Rasputin'],
             guildOnly: true
         });
     }

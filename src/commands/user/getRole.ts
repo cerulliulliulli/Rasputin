@@ -9,13 +9,12 @@ export default class GetRole extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'Get Role',
+            name: 'getRole',
             aliases: ['gr'],
             description: 'Get one of the specified self-assignable roles.',
             usage: '<prefix>gr [Role Name]',
-            extraHelp: 'Role Name is case-sensitive.',
+            extraHelp: '',
             group: 'user',
-            roles: [],
             guildOnly: true
         });
     }
