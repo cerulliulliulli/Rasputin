@@ -24,11 +24,18 @@ export default class AllowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
-        const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRolesArray: Array<[string, Role]> = Array.from(message.guild.roles.entries());
+        const limitedCommands: any = this.bot.guildStorages.get(message.guild).getSetting('limitedCommands');
         const re: RegExp = new RegExp('(?:.allow\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
+        let adminCommandRole: Role;
+
+        // find admin command role
+        for (let commandName in limitedCommands) {
+            if (this.name === commandName)
+                adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
+        }
 
         // make sure a role was specified
         if (re.test(original))
@@ -39,7 +46,7 @@ export default class AllowRole extends Command<Bot>
         // map roles
         let roleMap: any = serverRolesArray.filter(function(el: any)
         {
-            if (el[1].position < rasputinRole.position && el[1].name !== '@everyone' && el[1].managed === false)
+            if (el[1].position < adminCommandRole.position && el[1].name !== '@everyone' && el[1].managed === false)
                 return el[1];
         });
 
@@ -113,5 +120,9 @@ export default class AllowRole extends Command<Bot>
             else
                 return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
         }
+
+        
+
+        
     }
 }

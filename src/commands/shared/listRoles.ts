@@ -23,24 +23,30 @@ export default class ListRoles extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
-        const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
+        const limitedCommands: any = this.bot.guildStorages.get(message.guild).getSetting('limitedCommands');
+        let adminCommandRole: Role;
         let leftCol: string = '';
         let rightCol: string = '';
-
         const noRoles: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
             .setTitle(message.guild.name + ': Role Synchronization')            
             .addField('Current Allowed Roles', '\nNo roles currently allowed.')
             .setTimestamp();
+        
+        // find admin command role
+        for (let commandName in limitedCommands) {
+            if (commandName === 'allowRole')
+                adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
+        }
 
-        if (message.member.roles.find('name', 'Rasputin'))
+        if (message.member.roles.find('name', adminCommandRole.name))
         {
             // iterate through server roles to build leftCol/rightCol
             serverRoles.forEach(function(el: any)
             {
                 // grab all roles below rasputin, exclude @everyone and bots
-                if (el.position < rasputinRole.position && el.name !== '@everyone' && el.managed === false)
+                if (el.position < adminCommandRole.position && el.name !== '@everyone' && el.managed === false)
                 {
                     leftCol += '\n' + el.name;
                     if (util.existsInArray(availableRoles, el.name))
