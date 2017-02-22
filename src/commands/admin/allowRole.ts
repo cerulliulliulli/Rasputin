@@ -37,6 +37,10 @@ export default class AllowRole extends Command<Bot>
                 adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
         }
 
+        // make sure user has the admin command role
+        if (!message.member.roles.find('name', adminCommandRole.name))
+            return message.channel.sendMessage('You do not permissions to run this command.');
+
         // make sure a role was specified
         if (re.test(original))
             roleArg = re.exec(original)[1];

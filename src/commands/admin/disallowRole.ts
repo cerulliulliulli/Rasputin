@@ -24,9 +24,21 @@ export default class DisallowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
+        const limitedCommands: any = this.bot.guildStorages.get(message.guild).getSetting('limitedCommands');
         const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
+        let adminCommandRole: Role;
+
+        // find admin command role
+        for (let commandName in limitedCommands) {
+            if (this.name === commandName)
+                adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
+        }
+
+        // make sure user has the admin command role
+        if (!message.member.roles.find('name', adminCommandRole.name))
+            return message.channel.sendMessage('You do not permissions to run this command.');
 
         // make sure a role was specified
         if (re.test(original))
