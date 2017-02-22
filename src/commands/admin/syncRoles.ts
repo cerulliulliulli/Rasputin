@@ -3,7 +3,7 @@ import { Bot, Command } from 'yamdbf';
 import { Collection, GuildMember, Message, RichEmbed, Role, User } from 'discord.js';
 import util from '../../util/util';
 
-export default class ListRoles extends Command<Bot>
+export default class SyncRoles extends Command<Bot>
 {
     public constructor(bot: Bot)
     {

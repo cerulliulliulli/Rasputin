@@ -4,7 +4,7 @@ import { Collection, GuildMember, Message, Presence, RichEmbed, Role, User } fro
 import * as moment from 'moment';
 import util from '../../util/util';
 
-export default class ListRoles extends Command<Bot>
+export default class UserStats extends Command<Bot>
 {
     public constructor(bot: Bot)
     {
