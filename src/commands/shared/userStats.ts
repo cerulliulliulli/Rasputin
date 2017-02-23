@@ -34,9 +34,7 @@ export default class UserStats extends Command<Bot>
         let status: string = guildMember.user.presence.status;
 
         // iterate through user roles
-        userRoles.forEach(function(el: any)
-        {
-            // exclude @everyone and managed roles
+        userRoles.forEach((el: any) => {
             if (el.name !== '@everyone' && el.managed === false)
                 roles.push(el);
         });

@@ -31,11 +31,12 @@ export default class SyncRoles extends Command<Bot>
         let removedRoles: string = '';
         let adminCommandRole: Role;
 
+        // make sure server owner sets up limits
+        if (!guildStorage.getItem('Admin Role'))
+            return message.channel.sendMessage('Please assign an Admin Role with `.setup <Role Name>`, don\'t forget to set command limits as well.');
+
         // find admin command role
-        for (let commandName in limitedCommands) {
-            if (this.name === commandName)
-                adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
-        }
+        adminCommandRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
 
         // make sure user has the admin command role
         if (!message.member.roles.find('name', adminCommandRole.name))
