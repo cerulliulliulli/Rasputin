@@ -1,5 +1,5 @@
 'use strict'
-import { Role } from 'discord.js';
+import { Message, Role } from 'discord.js';
 export default class Util
 {
     public static existsInArray(array: Array<any>, item: string): boolean
@@ -33,5 +33,21 @@ export default class Util
     public static getRoleToRemove(array: Array<any>, item: string): number
     {
         return array.findIndex(a => a.name === item);        
+    }
+
+    public static updateRoles(availableRoles: any, guildStorage: any, message: Message, role: Role): any
+    {
+        if (availableRoles === null)
+        {
+            let newAvailableRoles = [{ "id": role.id, "name": role.name }];
+            guildStorage.setItem('Server Roles', newAvailableRoles);
+            return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
+        }
+        else
+        {
+            availableRoles.push({ "id": role.id, "name": role.name });
+            guildStorage.setItem('Server Roles', availableRoles);
+            return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
+        }
     }
 }

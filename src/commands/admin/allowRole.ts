@@ -48,14 +48,13 @@ export default class AllowRole extends Command<Bot>
             return message.channel.sendMessage('Please specify a role to allow.');
         
         // map roles
-        let roleMap: any = serverRolesArray.filter(function(el: any)
-        {
+        let roleMap: any = serverRolesArray.filter((el: any) => {
             if (el[1].position < adminCommandRole.position && el[1].name !== '@everyone' && el[1].managed === false)
                 return el[1];
         });
 
         // search for role
-        let options: any = { extract: function(el: any) { return el[1].name; } };
+        let options: any = { extract: (el: any) => { return el[1].name; } };
         let results: Array<any> = fuzzy.filter(roleArg, roleMap, options);
 
         // check if role is valid
@@ -72,23 +71,7 @@ export default class AllowRole extends Command<Bot>
             if (util.doesRoleExist(availableRoles, role))
                 return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
 
-            // make sure available roles isn't empty
-            if (availableRoles === null)
-            {
-                // setup new allowed list
-                let newAvailableRoles = [{ "id": role.id, "name": role.name }];
-                guildStorage.setItem('Server Roles', newAvailableRoles);
-
-                return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
-            }
-            else
-            {
-                // update allowed list
-                availableRoles.push({ "id": role.id, "name": role.name });
-                guildStorage.setItem('Server Roles', availableRoles);
-
-                return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
-            }
+            util.updateRoles(availableRoles, guildStorage, message, role);
         }
 
         // more than one role found
@@ -103,23 +86,7 @@ export default class AllowRole extends Command<Bot>
                 if (util.doesRoleExist(availableRoles, role))
                     return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
                 
-                // make sure available roles isn't empty
-                if (availableRoles === null)
-                {
-                    // setup new allowed list
-                    let newAvailableRoles = [{ "id": role.id, "name": role.name }];
-                    guildStorage.setItem('Server Roles', newAvailableRoles);
-
-                    return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
-                }
-                else
-                {
-                    // update allowed list
-                    availableRoles.push({ "id": role.id, "name": role.name });
-                    guildStorage.setItem('Server Roles', availableRoles);
-
-                    return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
-                }
+                util.updateRoles(availableRoles, guildStorage, message, role);
             }
             else
                 return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => {return el.string}).join(', ')}\`,  please be more specific.`);
