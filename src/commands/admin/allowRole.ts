@@ -122,11 +122,7 @@ export default class AllowRole extends Command<Bot>
                 }
             }
             else
-                return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
+                return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => {return el.string}).join(', ')}\`,  please be more specific.`);
         }
-
-        
-
-        
     }
 }
