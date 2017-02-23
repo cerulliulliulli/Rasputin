@@ -33,11 +33,12 @@ export default class ListRoles extends Command<Bot>
             .setTitle(message.guild.name + ': Role Synchronization')            
             .addField('Current Allowed Roles', '\nNo roles currently allowed.')
             .setTimestamp();
-        
+  
         // find admin command role
-        adminCommandRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
+        if (guildStorage.getItem('Admin Role'))
+            adminCommandRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
 
-        if (message.member.roles.find('name', adminCommandRole.name))
+        if (adminCommandRole !== undefined && message.member.roles.find('name', adminCommandRole.name))
         {
             // iterate through server roles to build leftCol/rightCol
             serverRoles.forEach(function(el: any)
@@ -66,7 +67,7 @@ export default class ListRoles extends Command<Bot>
         }
         else
         {
-            if (availableRoles === [])
+            if (availableRoles === [] || availableRoles === null)
                 return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
 
             // iterate through server roles to build leftCol

@@ -26,7 +26,7 @@ export default class SetAdminRole extends Command<Bot>
         
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        const re: RegExp = new RegExp('(?:.setup\\s)(.+)', 'i');
+        const re: RegExp = new RegExp('(?:.set\\s)(.+)', 'i');
         let roleArg: string = '';
         let adminRole: any;
 

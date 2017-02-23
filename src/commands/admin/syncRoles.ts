@@ -25,15 +25,14 @@ export default class SyncRoles extends Command<Bot>
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
-        const limitedCommands: any = this.bot.guildStorages.get(message.guild).getSetting('limitedCommands');
         let updatedRoles: any = [];
         let currentRoles: string = '';
         let removedRoles: string = '';
         let adminCommandRole: Role;
 
-        // make sure server owner sets up limits
+        // make sure server owner has set an Admin Role
         if (!guildStorage.getItem('Admin Role'))
-            return message.channel.sendMessage('Please assign an Admin Role with `.setup <Role Name>`, don\'t forget to set command limits as well.');
+            return message.channel.sendMessage('Please assign an Admin Role with `.set <Role Name>`.');
 
         // find admin command role
         adminCommandRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
