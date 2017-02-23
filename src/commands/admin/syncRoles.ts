@@ -45,7 +45,7 @@ export default class SyncRoles extends Command<Bot>
             .setColor(0x274E13)
             .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
             .addField('Current Allowed Roles', '\nNo roles currently allowed.')
-			.setTimestamp();
+            .setTimestamp();
 
         // make sure there are allowed roles
         if (availableRoles === null)
@@ -80,7 +80,7 @@ export default class SyncRoles extends Command<Bot>
             .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
             .addField('Current Allowed Roles', currentRoles)
             .addField('Roles Cleaned from Allowed List', removedRoles)
-			.setTimestamp();
+            .setTimestamp();
  
         // display the list
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });

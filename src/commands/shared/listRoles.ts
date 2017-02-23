@@ -59,7 +59,7 @@ export default class ListRoles extends Command<Bot>
                 .setAuthor(message.guild.name + ': List of Roles', message.guild.iconURL)
                 .addField('Roles', leftCol, true)
                 .addField('Status', rightCol, true)
-			    .setTimestamp();
+                .setTimestamp();
             
             // display the list
             return message.channel.sendEmbed(modEmbed, '', { disableEveryone: true });
@@ -77,7 +77,7 @@ export default class ListRoles extends Command<Bot>
                 .setColor(0x274E13)
                 .setAuthor(message.guild.name + ': List of Roles', message.guild.iconURL)
                 .addField('Roles', leftCol, true)
-			    .setTimestamp();
+                .setTimestamp();
             
             // display the list
             return message.channel.sendEmbed(userEmbed, '', { disableEveryone: true });

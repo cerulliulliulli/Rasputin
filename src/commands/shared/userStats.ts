@@ -55,7 +55,7 @@ export default class UserStats extends Command<Bot>
             .addField('Joined Server', joinServer, true)
             .addField('Joined Discord', joinDiscord, true)
             .addField('Roles', roles.join(', '), false)
-			.setTimestamp();
+            .setTimestamp();
 
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });
     }
