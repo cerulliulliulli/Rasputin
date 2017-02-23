@@ -72,9 +72,8 @@ export default class SetAdminRole extends Command<Bot>
                 adminRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
             else
                 adminRole = '*No admin role configured.*';
+
+            return message.channel.sendMessage(`Admin Role currently set to: \`${adminRole.name}\``);
         }
-        
-        return message.channel.sendMessage(`Admin Role currently set to: \`${adminRole.name}\``, { disableEveryone: true });
-        
     }
 }

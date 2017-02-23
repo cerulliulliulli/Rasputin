@@ -35,7 +35,7 @@ export default class Util
         return array.findIndex(a => a.name === item);        
     }
 
-    public static updateRoles(availableRoles: any, guildStorage: any, message: Message, role: Role): any
+    public static updateRoles(availableRoles: any, guildStorage: any, message: Message, role: Role): Promise<Message | Message[]>
     {
         if (availableRoles === null)
         {
