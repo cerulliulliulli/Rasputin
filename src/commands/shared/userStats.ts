@@ -30,7 +30,7 @@ export default class UserStats extends Command<Bot>
         const joinDiscord: string = moment(guildMember.user.createdAt).format('lll') + '\n*' + moment(new Date()).diff(guildMember.user.createdAt, 'days') + ' days ago*';
         const joinServer: string = moment(guildMember.joinedAt).format('lll') + '\n*' + moment(new Date()).diff(guildMember.joinedAt, 'days') + ' days ago*';
         const userRoles: Collection<string, Role> = new Collection(Array.from(message.member.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
-        let roles: Array<Role> = new Array();
+        let roles: Array<Role> = [];
         let status: string = guildMember.user.presence.status;
 
         // iterate through user roles
