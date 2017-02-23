@@ -35,10 +35,7 @@ export default class ListRoles extends Command<Bot>
             .setTimestamp();
         
         // find admin command role
-        for (let commandName in limitedCommands) {
-            if (commandName === 'allowRole')
-                adminCommandRole = message.guild.roles.get(limitedCommands[commandName].toString());
-        }
+        adminCommandRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
 
         if (message.member.roles.find('name', adminCommandRole.name))
         {

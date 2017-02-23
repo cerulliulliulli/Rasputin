@@ -11,6 +11,11 @@ const bot = new Bot({
     statusText: config.status,
     commandsDir: path.join(__dirname, 'commands'),
     disableBase: [
+        'disablegroup',
+		'enablegroup',
+		'listgroups',
+        'limit',
+        'clearlimit',
         'version',
         'reload',
         'eval',
