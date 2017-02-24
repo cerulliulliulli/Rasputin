@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-      "outDir": "./bin",
-      "types": ["node"],
-    	"target": "es6",
-		  "module": "commonjs",
-		    "lib": [
-			       "es7"
-		    ]
-    },
-    "exclude": [
+	"compilerOptions": {
+		"outDir": "./bin",
+		"types": ["node"],
+		"target": "es6",
+		"module": "commonjs",
+		"lib": [
+			"es7"
+		]
+	},
+	"exclude": [
 		"node_modules",
 		"bower_components",
 		"jspm_packages",
@@ -19,9 +19,9 @@
 		"pkg",
 		"examples"
 	],
-  "filesGlob": [
-      "**/*.ts",
-      "./typings/index.d.ts",
-      "./node_modules/@types//.d.ts"
-  ]
+	"filesGlob": [
+		"**/*.ts",
+		"./typings/index.d.ts",
+		"./node_modules/@types//.d.ts"
+	]
 }
