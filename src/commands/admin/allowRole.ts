@@ -89,7 +89,7 @@ export default class AllowRole extends Command<Bot>
                 util.updateRoles(availableRoles, guildStorage, message, role);
             }
             else
-                return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => {return el.string}).join(', ')}\`,  please be more specific.`);
+                return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific.`);
         }
     }
 }

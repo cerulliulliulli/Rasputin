@@ -63,7 +63,7 @@ export default class SetAdminRole extends Command<Bot>
                     return message.channel.sendMessage(`Admin Role successfully set to: \`${adminRole.name}\``);
                 }
                 else
-                    return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => {return el.string}).join(', ')}\`,  please be more specific.`);
+                    return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific.`);
             }
         }
         else

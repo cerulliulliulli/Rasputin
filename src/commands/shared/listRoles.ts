@@ -40,8 +40,7 @@ export default class ListRoles extends Command<Bot>
         if (adminCommandRole !== undefined && message.member.roles.find('name', adminCommandRole.name))
         {
             // iterate through server roles to build leftCol/rightCol
-            serverRoles.forEach(function(el: any)
-            {
+            serverRoles.forEach((el: any) => {
                 // grab all roles below rasputin, exclude @everyone and bots
                 if (el.position < adminCommandRole.position && el.name !== '@everyone' && el.managed === false)
                 {
