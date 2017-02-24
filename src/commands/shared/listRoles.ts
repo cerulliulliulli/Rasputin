@@ -25,8 +25,8 @@ export default class ListRoles extends Command<Bot>
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         let adminCommandRole: Role;
-        let leftCol: string = '';
-        let rightCol: string = '';
+        let leftCol: string = String();
+        let rightCol: string = String();
         const noRoles: RichEmbed = new RichEmbed()
             .setColor(0x274E13)
             .setTitle(message.guild.name + ': Role Synchronization')            
@@ -41,7 +41,7 @@ export default class ListRoles extends Command<Bot>
         {
             // iterate through server roles to build leftCol/rightCol
             serverRoles.forEach((el: any) => {
-                // grab all roles below rasputin, exclude @everyone and bots
+                // grab all roles below Admin Role, exclude @everyone and bots
                 if (el.position < adminCommandRole.position && el.name !== '@everyone' && el.managed === false)
                 {
                     leftCol += '\n' + el.name;

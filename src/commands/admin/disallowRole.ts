@@ -22,12 +22,12 @@ export default class DisallowRole extends Command<Bot>
     public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
     {
         // variable declaration
-        const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const re: RegExp = new RegExp('(?:.disallow\\s|.d\\s)(.+)', 'i');
-        let roleArg: string;
-        let role: Role;
+        const guildStorage: any = this.bot.guildStorages.get(message.guild);
+        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');        
+        let roleArg: string = String();
         let adminCommandRole: Role;
+        let role: Role;
 
         // make sure server owner has set an Admin Role
         if (!guildStorage.getItem('Admin Role'))
@@ -68,6 +68,7 @@ export default class DisallowRole extends Command<Bot>
             availableRoles.splice(util.getRoleToRemove(availableRoles, role.name), 1);
             guildStorage.setItem('Server Roles', availableRoles);
 
+            // display success message
             return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
         }
 
@@ -81,9 +82,11 @@ export default class DisallowRole extends Command<Bot>
                 availableRoles.splice(util.getRoleToRemove(availableRoles, util.getSpecificRoleName(results, roleArg)), 1);
                 guildStorage.setItem('Server Roles', availableRoles);
 
+                // display success message
                 return message.channel.sendMessage(`\`${util.getSpecificRoleName(results, roleArg)}\` successfully disallowed.`);
             }
             else
+                // be more specific
                 return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific.`);
         }            
     }

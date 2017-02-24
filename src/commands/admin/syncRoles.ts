@@ -24,10 +24,10 @@ export default class SyncRoles extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
-        let updatedRoles: any = [];
-        let currentRoles: string = '';
-        let removedRoles: string = '';
         let adminCommandRole: Role;
+        let updatedRoles: any = Array();
+        let currentRoles: string = String();
+        let removedRoles: string = String();
 
         // make sure server owner has set an Admin Role
         if (!guildStorage.getItem('Admin Role'))

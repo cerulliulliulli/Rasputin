@@ -22,13 +22,13 @@ export default class AllowRole extends Command<Bot>
     public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
     {
         // variable declaration
-        const guildStorage: any = this.bot.guildStorages.get(message.guild);
-        let availableRoles: any = guildStorage.getItem('Server Roles');
-        const serverRolesArray: Array<[string, Role]> = Array.from(message.guild.roles.entries());
         const re: RegExp = new RegExp('(?:.allow\\s|.a\\s)(.+)', 'i');
-        let roleArg: string;
-        let role: Role;
+        const guildStorage: any = this.bot.guildStorages.get(message.guild);
+        const serverRolesArray: Array<[string, Role]> = Array.from(message.guild.roles.entries());
+        let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
+        let roleArg: string = String();
         let adminCommandRole: Role;
+        let role: Role;        
 
         // make sure server owner has set an Admin Role
         if (!guildStorage.getItem('Admin Role'))
@@ -71,6 +71,7 @@ export default class AllowRole extends Command<Bot>
             if (util.doesRoleExist(availableRoles, role))
                 return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
 
+            // update roles
             util.updateRoles(availableRoles, guildStorage, message, role);
         }
 
@@ -80,15 +81,18 @@ export default class AllowRole extends Command<Bot>
             // check if roleArg is specifically typed
             if (util.isSpecificResult(results, roleArg))
             {
+                // role from roleArg
                 role = util.getSpecificRole(results, roleArg);
 
                 // check if role already is allowed
                 if (util.doesRoleExist(availableRoles, role))
                     return message.channel.sendMessage(`\`${role.name}\` is already an allowed role.`);
                 
+                // update roles
                 util.updateRoles(availableRoles, guildStorage, message, role);
             }
             else
+                // be more specific
                 return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific.`);
         }
     }

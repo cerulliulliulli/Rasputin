@@ -19,6 +19,7 @@ export default class BotStats extends Command<Bot>
 
 	public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
 	{
+		// build embed
 		const embed: RichEmbed = new RichEmbed()
 			.setColor(0x274E13)
 			.setAuthor(this.bot.user.username + ' Stats', this.bot.user.avatarURL)
@@ -31,6 +32,7 @@ export default class BotStats extends Command<Bot>
 				+ `?permissions=297888791&scope=bot&client_id=${this.bot.user.id})`, true)
 			.setTimestamp();
 
+		// display stats
         return message.channel.sendEmbed(embed, '', { disableEveryone: true });
 	}
 }

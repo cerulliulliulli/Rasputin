@@ -21,19 +21,21 @@ export default class SetAdminRole extends Command<Bot>
 
     public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
     {
-        if (message.guild.ownerID !== message.author.id)
+        // make sure user is server owner
+        if (message.author.id !== message.guild.ownerID)
             return message.channel.sendMessage('Only the server owner can run this command.');
         
         // variable declaration
-        const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const re: RegExp = new RegExp('(?:.set\\s)(.+)', 'i');
-        let roleArg: string = '';
-        let adminRole: any;
+        const guildStorage: any = this.bot.guildStorages.get(message.guild);        
+        let roleArg: string = String();
+        let adminRole: Role;
 
-        // check if admin role was specified
+        // grab roleArg from original message
         if (re.test(original))
             roleArg = re.exec(original)[1];
         
+        // make sure the user specified a role
         if (roleArg)
         {
             // search for role
@@ -68,12 +70,14 @@ export default class SetAdminRole extends Command<Bot>
         }
         else
         {
+            // check guildStorage for Admin Role
             if (guildStorage.getItem('Admin Role'))
+            {
                 adminRole = message.guild.roles.get(guildStorage.getItem('Admin Role').toString());
+                return message.channel.sendMessage(`Admin Role currently set to: \`${adminRole.name}\``);
+            }
             else
-                adminRole = '*No admin role configured.*';
-
-            return message.channel.sendMessage(`Admin Role currently set to: \`${adminRole.name}\``);
+                return message.channel.sendMessage('*No admin role configured.*');
         }
     }
 }

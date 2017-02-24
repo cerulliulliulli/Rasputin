@@ -76,6 +76,7 @@ export default class GetRole extends Command<Bot>
                 });
             }
             else
+                // be more specific
                 return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
         }
     }
