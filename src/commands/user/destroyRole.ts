@@ -38,10 +38,6 @@ export default class DestroyRole extends Command<Bot>
         if (availableRoles === null)
             return message.channel.sendMessage('There are currently no self-assignable roles.');
         
-        // make sure user is logged in
-        if (message.member === null)
-            return message.channel.sendMessage('Please login in order to remove roles.');
-        
         // search for role
         let options: any = { extract: (el: any) => { return el.name } };
         let results: any = fuzzy.filter(roleArg, availableRoles, options);
@@ -50,11 +46,16 @@ export default class DestroyRole extends Command<Bot>
         if (results.length === 0)
             return message.channel.sendMessage(`\`${roleArg}\` is not a valid role.`);
         
-        // assign role
+        // remove role
         if (results.length === 1)
         {
-            message.member.removeRole(results[0].original.id);
-            return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);            
+            // try to find user
+            message.guild.fetchMember(message.author.id).then((user: any) =>{
+                user.removeRole(results[0].original.id);
+                return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);
+            }).catch((err: any) => {
+                return message.channel.sendMessage(`User could not be found.`);
+            });            
         }
 
         // more than one role found
@@ -63,9 +64,16 @@ export default class DestroyRole extends Command<Bot>
             // check if roleArg is specifically typed
             if (util.isSpecificResult(results, roleArg))
             {
+                // grab the role to remove
                 role = message.guild.roles.find('name', util.getSpecificRoleName(results, roleArg));
-                message.member.removeRole(role);
-                return message.channel.sendMessage(`\`${role.name}\` successfully removed.`);                
+                
+                // try to find user
+                message.guild.fetchMember(message.author.id).then((user: any) =>{
+                    user.removeRole(role);
+                    return message.channel.sendMessage(`\`${role.name}\` successfully removed.`);
+                }).catch((err: any) => {
+                    return message.channel.sendMessage(`User could not be found.`);
+                });
             }
             else
                 return message.channel.sendMessage(`More than one role found: \`${results.map((elem: any) => {return elem.string}).join(', ')}\`,  please be more specific.`);
