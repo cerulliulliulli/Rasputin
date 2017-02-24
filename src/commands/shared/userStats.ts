@@ -10,7 +10,7 @@ export default class UserStats extends Command<Bot>
     {
         super(bot, {
             name: 'userStats',
-            aliases: ['stats'],
+            aliases: ['stats', 'STATS', 'Stats', 'us'],
             description: 'Display your discord stats.',
             usage: '<prefix>stats',
             extraHelp: '',

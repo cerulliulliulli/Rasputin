@@ -10,7 +10,7 @@ export default class GetRole extends Command<Bot>
     {
         super(bot, {
             name: 'getRole',
-            aliases: ['gr'],
+            aliases: ['gr', 'GR', 'gR', 'Gr'],
             description: 'Get one of the specified self-assignable roles.',
             usage: '<prefix>gr [Role Name]',
             extraHelp: '',

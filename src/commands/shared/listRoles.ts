@@ -9,7 +9,7 @@ export default class ListRoles extends Command<Bot>
     {
         super(bot, {
             name: 'listRoles',
-            aliases: ['list'],
+            aliases: ['list', 'LIST', 'List', 'l'],
             description: 'List all server roles with their current self-assignable status.',
             usage: '<prefix>list',
             extraHelp: '',

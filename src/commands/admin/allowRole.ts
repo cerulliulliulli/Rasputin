@@ -10,7 +10,7 @@ export default class AllowRole extends Command<Bot>
     {
         super(bot, {
             name: 'allowRole',
-            aliases: ['allow'],
+            aliases: ['allow', 'ALLOW', 'Allow', 'a'],
             description: 'Allow specified role to be self-assigned.',
             usage: '<prefix>allow [Role Name]',
             extraHelp: '',
@@ -25,7 +25,7 @@ export default class AllowRole extends Command<Bot>
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: any = guildStorage.getItem('Server Roles');
         const serverRolesArray: Array<[string, Role]> = Array.from(message.guild.roles.entries());
-        const re: RegExp = new RegExp('(?:.allow\\s)(.+)', 'i');
+        const re: RegExp = new RegExp('(?:.allow\\s|.a\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
         let adminCommandRole: Role;

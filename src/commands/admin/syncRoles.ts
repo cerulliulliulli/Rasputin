@@ -9,7 +9,7 @@ export default class SyncRoles extends Command<Bot>
     {
         super(bot, {
             name: 'sync',
-            aliases: ['sync'],
+            aliases: ['sync', 'SYNC', 'Sync', 's'],
             description: 'Synchronize the allowed roles with the current server roles.',
             usage: '<prefix>sync',
             extraHelp: 'This command will remove any non-existent server roles from the list of allowed roles.',

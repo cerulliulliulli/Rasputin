@@ -10,7 +10,7 @@ export default class DisallowRole extends Command<Bot>
     {
         super(bot, {
             name: 'disallowRole',
-            aliases: ['disallow'],
+            aliases: ['disallow', 'DISALLOW', 'Disallow', 'd'],
             description: 'Disallow specified role to be self-assigned.',
             usage: '<prefix>disallow [Role Name]',
             extraHelp: '',
@@ -24,7 +24,7 @@ export default class DisallowRole extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: Array<any> = guildStorage.getItem('Server Roles');
-        const re: RegExp = new RegExp('(?:.disallow\\s)(.+)', 'i');
+        const re: RegExp = new RegExp('(?:.disallow\\s|.d\\s)(.+)', 'i');
         let roleArg: string;
         let role: Role;
         let adminCommandRole: Role;

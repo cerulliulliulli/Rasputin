@@ -9,7 +9,7 @@ export default class BotStats extends Command<Bot>
 	{
 		super(bot, {
 			name: 'botStats',
-			aliases: ['bstats'],
+			aliases: ['bstats', 'BSTATS', 'BStats', 'bStats', 'bs'],
 			description: 'Bot information',
 			usage: '<prefix>bstats',
 			extraHelp: '',
