@@ -52,8 +52,7 @@ export default class SyncRoles extends Command<Bot>
             return message.channel.sendEmbed(noRoles, '', { disableEveryone: true });
 
         // iterate through availableRoles, create updated list
-        availableRoles.forEach(function(el: any)
-        {
+        availableRoles.forEach((el: any) => {
             if (serverRoles.find('name', el.name))
             {
                 updatedRoles.push(el);

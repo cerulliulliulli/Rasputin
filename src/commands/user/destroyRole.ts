@@ -50,7 +50,7 @@ export default class DestroyRole extends Command<Bot>
         if (results.length === 1)
         {
             // try to find user
-            message.guild.fetchMember(message.author.id).then((user: any) =>{
+            message.guild.fetchMember(message.author.id).then((user: GuildMember) => {
                 user.removeRole(results[0].original.id);
                 return message.channel.sendMessage(`\`${results[0].original.name}\` successfully removed.`);
             }).catch((err: any) => {
@@ -68,7 +68,7 @@ export default class DestroyRole extends Command<Bot>
                 role = message.guild.roles.find('name', util.getSpecificRoleName(results, roleArg));
                 
                 // try to find user
-                message.guild.fetchMember(message.author.id).then((user: any) =>{
+                message.guild.fetchMember(message.author.id).then((user: GuildMember) => {
                     user.removeRole(role);
                     return message.channel.sendMessage(`\`${role.name}\` successfully removed.`);
                 }).catch((err: any) => {
