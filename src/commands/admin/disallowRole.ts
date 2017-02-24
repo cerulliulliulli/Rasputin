@@ -22,9 +22,11 @@ export default class DisallowRole extends Command<Bot>
     public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
     {
         // variable declaration
-        const re: RegExp = new RegExp('(?:.disallow\\s|.d\\s)(.+)', 'i');
+        const re: RegExp = new RegExp('(?:.disallow\\s|.d\\s)(.+[^\\s-s])', 'i');
+        const reS: RegExp = new RegExp('(?:-s)', 'i');
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         let availableRoles: Array<any> = guildStorage.getItem('Server Roles');        
+        let scrub: Boolean = false;
         let roleArg: string = String();
         let adminCommandRole: Role;
         let role: Role;
@@ -45,6 +47,9 @@ export default class DisallowRole extends Command<Bot>
             roleArg = re.exec(original)[1];
         else
             return message.channel.sendMessage('Please specify a role to disallow.');
+        
+        if (reS.test(original))
+            scrub = true;
         
         // make sure available roles isn't empty
         if (availableRoles === null)
@@ -68,8 +73,12 @@ export default class DisallowRole extends Command<Bot>
             availableRoles.splice(util.getRoleToRemove(availableRoles, role.name), 1);
             guildStorage.setItem('Server Roles', availableRoles);
 
-            // display success message
-            return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
+            // check if scrub option was used
+            if (scrub)
+                util.removeRoleFromUserBase(message, role);
+            else
+                // display success message
+                return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
         }
 
         // more than one role found
@@ -82,8 +91,12 @@ export default class DisallowRole extends Command<Bot>
                 availableRoles.splice(util.getRoleToRemove(availableRoles, util.getSpecificRoleName(results, roleArg)), 1);
                 guildStorage.setItem('Server Roles', availableRoles);
 
-                // display success message
-                return message.channel.sendMessage(`\`${util.getSpecificRoleName(results, roleArg)}\` successfully disallowed.`);
+                // check if scrub option was used
+                if (scrub)
+                    util.removeRoleFromUserBase(message, role);
+                else
+                    // display success message
+                    return message.channel.sendMessage(`\`${role.name}\` successfully disallowed.`);
             }
             else
                 // be more specific

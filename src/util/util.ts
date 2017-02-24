@@ -1,5 +1,5 @@
 'use strict'
-import { Message, Role } from 'discord.js';
+import { Guild, GuildMember, Message, Role } from 'discord.js';
 export default class Util
 {
     public static existsInArray(array: Array<any>, item: string): boolean
@@ -49,5 +49,20 @@ export default class Util
             guildStorage.setItem('Server Roles', availableRoles);
             return message.channel.sendMessage(`\`${role.name}\` successfully allowed.`);
         }
+    }
+
+    public static removeRoleFromUserBase(message: Message, role: Role): Promise<Message | Message[]>
+    {
+        let count: number = 0;
+
+        message.guild.members.filter((user: GuildMember) => {
+            if (user.roles.find('name', role.name))
+            {
+                user.removeRole(role);
+                count++;
+            }
+        });
+
+        return message.channel.sendMessage(`\`${role.name}\` successfully disallowed and removed from \`${count}\` users.`);
     }
 }
