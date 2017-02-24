@@ -8,8 +8,8 @@ export default class SyncRoles extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'sync',
-            aliases: ['sync', 'SYNC', 'Sync', 's'],
+            name: 'syncRoles',
+            aliases: ['sync', 'SYNC', 'Sync', 'sr', 's'],
             description: 'Synchronize the allowed roles with the current server roles.',
             usage: '<prefix>sync',
             extraHelp: 'This command will remove any non-existent server roles from the list of allowed roles.',
@@ -23,7 +23,6 @@ export default class SyncRoles extends Command<Bot>
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
         const availableRoles: Array<any> = guildStorage.getItem('Server Roles');
-        const rasputinRole: Role = message.guild.roles.find('name', 'Rasputin');
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         let updatedRoles: any = [];
         let currentRoles: string = '';
