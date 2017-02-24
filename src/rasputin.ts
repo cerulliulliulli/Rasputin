@@ -12,8 +12,8 @@ const bot = new Bot({
     commandsDir: path.join(__dirname, 'commands'),
     disableBase: [
         'disablegroup',
-		'enablegroup',
-		'listgroups',
+        'enablegroup',
+        'listgroups',
         'limit',
         'clearlimit',
         'version',

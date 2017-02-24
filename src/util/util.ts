@@ -54,7 +54,6 @@ export default class Util
     public static removeRoleFromUserBase(message: Message, role: Role): Promise<Message | Message[]>
     {
         let count: number = 0;
-
         message.guild.members.filter((user: GuildMember) => {
             if (user.roles.find('name', role.name))
             {
@@ -62,7 +61,6 @@ export default class Util
                 count++;
             }
         });
-
         return message.channel.sendMessage(`\`${role.name}\` successfully disallowed and removed from \`${count}\` users.`);
     }
 }
