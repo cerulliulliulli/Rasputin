@@ -8,4 +8,3 @@ This bot uses YAMDBF.
 - [Rasputin Wiki](https://github.com/katagatame/Rasputin/wiki)
 - [YAMDBF GitHub](https://github.com/zajrik/yamdbf)
 - [YAMDBF Documentation](https://yamdbf.js.org/)
-
