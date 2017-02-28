@@ -1,4 +1,5 @@
 'use strict';
+
 import { Bot, Command } from 'yamdbf';
 import { Collection, GuildMember, Message, Presence, RichEmbed, Role, User } from 'discord.js';
 import * as moment from 'moment';
