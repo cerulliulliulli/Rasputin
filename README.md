@@ -1,5 +1,6 @@
 # Rasputin
-[![David](https://david-dm.org/katagatame/Rasputin.svg?maxAge=3600)](https://david-dm.org/katagatame/Rasputin)
+[![Dependencies Status](https://david-dm.org/katagatame/Rasputin.svg?maxAge=3600)](https://david-dm.org/katagatame/Rasputin)
+[![devDependencies Status](https://david-dm.org/katagatame/Rasputin/dev-status.svg)](https://david-dm.org/katagatame/Rasputin?type=dev)
 [![Travis](https://travis-ci.org/katagatame/Rasputin.svg?branch=master)](https://travis-ci.org/katagatame/Rasputin)
 
 Small bot geared towards supporting Destiny Discord servers.  Currently, role management is the main focus.  Role names are not case-sensitive.
