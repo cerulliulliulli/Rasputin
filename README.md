@@ -1,4 +1,7 @@
 # Rasputin
+[![Travis](https://travis-ci.org/katagatame/Rasputin.svg?branch=master)](https://travis-ci.org/katagatame/Rasputin)
+[![David](https://david-dm.org/katagatame/Rasputin.svg?maxAge=3600)](https://david-dm.org/katagatame/Rasputin)
+
 Small bot geared towards supporting Destiny Discord servers.  Currently, role management is the main focus.  Role names are not case-sensitive.
 
 This bot uses YAMDBF.
