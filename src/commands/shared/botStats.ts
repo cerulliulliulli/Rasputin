@@ -19,7 +19,7 @@ export default class BotStats extends Command<Bot>
 		});
 	}
 
-	public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
+	public action(message: Message, args: Array<string | number>, mentions: User[], original: string): Promise<Message>
 	{
 		// build embed
 		const embed: RichEmbed = new RichEmbed()
@@ -31,7 +31,9 @@ export default class BotStats extends Command<Bot>
 			.addField('YAMDBF', `v${version}`, true)
 			.addField('Discord.js', `v${Discord.version}`, true)
 			.addField('Bot Invite', `[Click here](https://discordapp.com/oauth2/authorize`
-				+ `?permissions=297888791&scope=bot&client_id=${this.bot.user.id})`, true)
+				+ `?permissions=268435472&scope=bot&client_id=${this.bot.user.id})`, true)
+			.addField('\u200b', `For setup instructions, visit the [Rasputin Wiki](https://github.com/`
+				+ `katagatame/Rasputin/wiki).`)
 			.setTimestamp();
 
 		// display stats
