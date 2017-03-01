@@ -9,7 +9,7 @@ This bot uses YAMDBF.
 
 # Links
 #### Rasputin
-- [Rasputin Invite](https://discordapp.com/oauth2/authorize?&client_id=275830693299486731&scope=bot&permissions=150528)
+- [Rasputin Invite](https://discordapp.com/oauth2/authorize?&client_id=275830693299486731&scope=bot&permissions=268435472)
 - [Rasputin Wiki](https://github.com/katagatame/Rasputin/wiki)
 
 #### YAMDBF
