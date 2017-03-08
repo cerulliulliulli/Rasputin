@@ -1,7 +1,7 @@
 'use strict';
 
-import { Bot, Command, version, Message } from 'yamdbf';
-import { User, RichEmbed, Guild } from 'discord.js';
+import { Bot, Command, Message, version } from 'yamdbf';
+import { Guild, RichEmbed, User } from 'discord.js';
 import * as Discord from 'discord.js';
 import * as moment from 'moment';
 
