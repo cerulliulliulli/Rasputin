@@ -101,7 +101,7 @@ export default class DisallowRole extends Command<Bot>
             }
             else
                 // be more specific
-                return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific.`);
+                return message.channel.sendMessage(`More than one role found: \`${results.map((el: any) => { return el.string; }).join(', ')}\`,  please be more specific (*case-sensitive*).`);
         }            
     }
 }
