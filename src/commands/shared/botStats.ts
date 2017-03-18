@@ -31,7 +31,7 @@ export default class BotStats extends Command<Bot>
 			.addField('YAMDBF', `v${version}`, true)
 			.addField('Discord.js', `v${Discord.version}`, true)
 			.addField('Bot Invite', `[Click here](https://discordapp.com/oauth2/authorize`
-				+ `?permissions=268438528&scope=bot&client_id=${this.bot.user.id})`, true)
+				+ `?permissions=268438544&scope=bot&client_id=${this.bot.user.id})`, true)
 			.addField('\u200b', `For setup instructions, visit the [Rasputin Wiki](https://github.com/`
 				+ `katagatame/Rasputin/wiki).`)
 			.setTimestamp();
