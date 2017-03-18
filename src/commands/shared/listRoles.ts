@@ -76,7 +76,8 @@ export default class ListRoles extends Command<Bot>
             const userEmbed: RichEmbed = new RichEmbed()
                 .setColor(0x274E13)
                 .setAuthor(message.guild.name + ': List of Roles', message.guild.iconURL)
-                .addField('Roles', leftCol, true)
+                .setDescription('Run `.gr *.` to get all available roles.')
+                .addField('Roles', leftCol, true)                
                 .setTimestamp();
             
             // display the list
