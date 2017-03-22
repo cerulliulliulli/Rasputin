@@ -26,11 +26,11 @@
     "yamdbf": "github:zajrik/yamdbf"
   },
   "devDependencies": {
-    "@types/node": "^7.0.5",
+    "@types/node": "^7.0.8",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.1.6",
-    "tslint": "^4.5.0",
+    "tslint": "^4.5.1",
     "typescript": "^2.2.1"
   }
 }
