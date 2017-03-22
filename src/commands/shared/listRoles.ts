@@ -9,17 +9,17 @@ export default class ListRoles extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'listRoles',
-            aliases: ['list', 'LIST', 'List', 'l'],
-            description: 'List all server roles with their current self-assignable status.',
-            usage: '<prefix>list',
-            extraHelp: '',
+            name: 'list',
+            aliases: ['l'],
+            description: 'List Roles',
+            usage: '<prefix>list, <prefix>l',
+            extraHelp: 'List all server roles with their current self-assignable status.',
             group: 'shared',
             guildOnly: true
         });
     }
 
-    public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
+    public action(message: Message, args: string[]): Promise<Message>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
@@ -40,8 +40,12 @@ export default class ListRoles extends Command<Bot>
 
         if (adminCommandRole !== undefined && message.member.roles.find('name', adminCommandRole.name))
         {
+            // make sure admin role isn't the lowest in the list
+            if (adminCommandRole.position === 1)
+                return message.channel.sendMessage('Please make sure your admin role isn\'t the lowest in the list.');
+
             // iterate through server roles to build leftCol/rightCol
-            serverRoles.forEach((el: any) => {
+            serverRoles.forEach((el: Role) => {
                 // grab all roles below Admin Role, exclude @everyone and bots
                 if (el.position < adminCommandRole.position && el.name !== '@everyone' && el.managed === false)
                 {

@@ -10,17 +10,17 @@ export default class UserStats extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'userStats',
-            aliases: ['stats', 'STATS', 'Stats', 'us'],
-            description: 'Display your discord stats.',
-            usage: '<prefix>stats',
-            extraHelp: '',
+            name: 'us',
+            aliases: ['stats'],
+            description: 'User Stats',
+            usage: '<prefix>us, <prefix>stats',
+            extraHelp: 'Display your Discord stats.',
             group: 'shared',
             guildOnly: true
         });
     }
 
-    public action(message: Message, args: Array<string | number>, mentions: User[], original: string): Promise<Message>
+    public action(message: Message, args: string[]): Promise<Message>
     {
         // make sure user is logged in
         if (message.member === null)

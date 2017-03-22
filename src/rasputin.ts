@@ -11,15 +11,15 @@ const bot = new Bot({
     statusText: config.status,
     commandsDir: path.join(__dirname, 'commands'),
     disableBase: [
+        'clearlimit',
         'disablegroup',
         'enablegroup',
-        'listgroups',
-        'limit',
-        'clearlimit',
-        'version',
-        'reload',
         'eval',
-        'ping'
+        'limit',
+        'listgroups',
+        'ping',
+        'reload',
+        'version'
     ]
 })
 .setDefaultSetting('prefix', '.')

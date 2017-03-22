@@ -9,17 +9,17 @@ export default class SyncRoles extends Command<Bot>
     public constructor(bot: Bot)
     {
         super(bot, {
-            name: 'syncRoles',
-            aliases: ['sync', 'SYNC', 'Sync', 'sr', 's'],
-            description: 'Synchronize the allowed roles with the current server roles.',
-            usage: '<prefix>sync',
+            name: 'sync',
+            aliases: ['s'],
+            description: 'Synchronize Roles',
+            usage: '<prefix>sync, <prefix>s',
             extraHelp: 'This command will remove any non-existent server roles from the list of allowed roles.',
             group: 'admin',
             guildOnly: true
         });
     }
 
-    public action(message: Message, args: Array<string | number>, mentions: User[], original: string): any
+    public action(message: Message, args: string[]): Promise<any>
     {
         // variable declaration
         const guildStorage: any = this.bot.guildStorages.get(message.guild);
@@ -27,8 +27,13 @@ export default class SyncRoles extends Command<Bot>
         const serverRoles: Collection<string, Role> = new Collection(Array.from(message.guild.roles.entries()).sort((a: any, b: any) => b[1].position - a[1].position));
         let adminCommandRole: Role;
         let updatedRoles: any = Array();
-        let currentRoles: string = String();
-        let removedRoles: string = String();
+        let currentRoles: string = '';
+        let removedRoles: string = '';
+        const noRoles: RichEmbed = new RichEmbed()
+            .setColor(0x274E13)
+            .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
+            .addField('Current Allowed Roles', '\nNo roles currently allowed.')
+            .setTimestamp();
 
         // make sure server owner has set an Admin Role
         if (!guildStorage.getItem('Admin Role'))
@@ -40,12 +45,6 @@ export default class SyncRoles extends Command<Bot>
         // make sure user has the admin command role
         if (!message.member.roles.find('name', adminCommandRole.name))
             return message.channel.sendMessage('You do not permissions to run this command.');
-
-        const noRoles: RichEmbed = new RichEmbed()
-            .setColor(0x274E13)
-            .setAuthor(message.guild.name + ': Role Synchronization', message.guild.iconURL)
-            .addField('Current Allowed Roles', '\nNo roles currently allowed.')
-            .setTimestamp();
 
         // make sure there are allowed roles
         if (availableRoles === null)

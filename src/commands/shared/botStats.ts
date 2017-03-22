@@ -10,16 +10,16 @@ export default class BotStats extends Command<Bot>
 	public constructor(bot: Bot)
 	{
 		super(bot, {
-			name: 'botStats',
-			aliases: ['bstats', 'BSTATS', 'BStats', 'bStats', 'bs'],
-			description: 'Bot information',
-			usage: '<prefix>bstats',
-			extraHelp: '',
+			name: 'bs',
+			aliases: ['bstats'],
+			description: 'Bot Information',
+			usage: '<prefix>bs, <prefix>bstats',
+			extraHelp: 'This command returns information about the bot.',
 			group: 'shared'
 		});
 	}
 
-	public action(message: Message, args: Array<string | number>, mentions: User[], original: string): Promise<Message>
+	public action(message: Message, args: string[]): Promise<Message>
 	{
 		// build embed
 		const embed: RichEmbed = new RichEmbed()
