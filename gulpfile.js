@@ -1,19 +1,15 @@
-var gulp = require('gulp');
-var ts = require('gulp-typescript');
-var del = require('del');
+const gulp = require('gulp');
+const ts = require('gulp-typescript');
+const del = require('del');
+
+const project = ts.createProject('tsconfig.json');
 
 gulp.task('default', () =>
 {
     del.sync(['./bin/**/*.*']);
 
     gulp.src('./src/**/*.ts')
-        .pipe(ts({
-            noImplicitAny: true,
-            outDir: 'bin',
-            target: 'ES6',
-            module: 'commonjs',
-            moduleResolution: 'node'
-        }))
+        .pipe(project())
         .pipe(gulp.dest('bin/'));
 
     gulp.src('./src/config.json')
@@ -21,7 +17,4 @@ gulp.task('default', () =>
 
     gulp.src('./src/img/*.*')
         .pipe(gulp.dest('bin/img/'));
-    
-    gulp.src('./src/util/*.*')
-        .pipe(gulp.dest('bin/util/'));
 });
